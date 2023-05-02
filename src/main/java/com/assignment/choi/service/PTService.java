@@ -51,9 +51,21 @@ public class PTService {
 		String uri = "/insert_userHobby_PT";
 		// hDto 에 아이디 담아서 보내기
 		hDto.setUserId(dto.getUserId());
-		// hDto 에 취미코드 담아서 보내기
-		hDto.setH_code_id(h_code_id);
-		restTemplate.postForObject(url+uri, hDto, UserHDto.class);
+		// hDto 에 취미코드 하나씩 담아서 보내기
+		if(h_code_id.contains(",")) {
+			String[] hic = h_code_id.split(",");
+			for(int i=0; i<hic.length; i++) {
+				// 임시 변수
+				System.out.println("취미코드"+ (i+1) +": "+hic[i]);
+				hDto.setH_code_id(hic[i]);
+				System.out.println("PT 서비스 hDto : "+hic[i]);
+				restTemplate.postForObject(url+uri, hDto, UserHDto.class);
+			}
+		} else {
+			hDto.setH_code_id(h_code_id);
+			System.out.println("PT 서비스 hDto : "+hDto);
+			restTemplate.postForObject(url+uri, hDto, UserHDto.class);
+		}
 	}
 	
 	public int idCheck(String userId) {

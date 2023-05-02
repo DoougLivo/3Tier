@@ -51,6 +51,7 @@ public class UserController {
 			ptService.insert(dto);
 			// 취미 등록
 			if(h_code_id != null) {
+				System.out.println("PT controller : "+h_code_id);
 				ptService.insert_hobby(dto, hDto, h_code_id);
 			}
 			map.put("msg", "success");
