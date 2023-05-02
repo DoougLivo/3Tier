@@ -39,10 +39,10 @@ public class UserHDto {
 	@Transient
 	private String userId;
 	
-	@Override
-	public String toString() {
-		return "UserHDto [hobbyDto=" + hobbyDto.getH_code_id() + ", userDto=" + userDto.getUserId() + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "UserHDto [hobbyDto=" + hobbyDto.getH_code_id() + ", userDto=" + userDto.getUserId() + "]";
+//	}
 
 	
 }

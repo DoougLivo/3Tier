@@ -51,8 +51,10 @@ public class UserController {
 			ptService.insert(dto);
 			// 취미 등록
 			if(h_code_id != null) {
+//				System.out.println("PT controller hDto : "+hDto);
 				System.out.println("PT controller : "+h_code_id);
 				ptService.insert_hobby(dto, hDto, h_code_id);
+				System.out.println("와 드디어 서비스가 됐다 ~");
 			}
 			map.put("msg", "success");
 			map.put("ok", "승인 요청 되었습니다.");

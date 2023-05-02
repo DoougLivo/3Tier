@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.assignment.choi.domain.DepDto;
+import com.assignment.choi.domain.HobbyDto;
 import com.assignment.choi.domain.UserDto;
 import com.assignment.choi.domain.UserHDto;
 import com.assignment.choi.domain.UserHDtoPK;
@@ -48,23 +49,54 @@ public class PTService {
 	}
 	
 	public void insert_hobby(UserDto dto, UserHDto hDto, String h_code_id) {
+		UserHDto new_hDto = new UserHDto();
+		HobbyDto hobbyDto = new HobbyDto();
+		UserDto new_userDto = new UserDto();
 		String uri = "/insert_userHobby_PT";
 		// hDto 에 아이디 담아서 보내기
-		hDto.setUserId(dto.getUserId());
+//		hDto.setUserId(dto.getUserId());
+//		new_hDto.setUserId(hDto.getUserId());
+		
+//		new_hDto.setUserId(dto.getUserId());
+//		new_userDto.setUserId(dto.getUserId());
+//		new_hDto.setUserDto(new_userDto);
+		System.out.println("이거 테스트 : "+dto.getUserId());
+		new_userDto.setUserId(dto.getUserId());
+		new_hDto.setUserDto(new_userDto);
+		System.out.println("이거 테스트 2 : "+new_hDto.getUserDto().getUserId());
+		
+//		hobbyDto.setH_code_id(h_code_id);
+//		new_hDto.setH_code_id(hobbyDto.getH_code_id());
 		// hDto 에 취미코드 하나씩 담아서 보내기
 		if(h_code_id.contains(",")) {
 			String[] hic = h_code_id.split(",");
 			for(int i=0; i<hic.length; i++) {
 				// 임시 변수
 				System.out.println("취미코드"+ (i+1) +": "+hic[i]);
-				hDto.setH_code_id(hic[i]);
-				System.out.println("PT 서비스 hDto : "+hic[i]);
-				restTemplate.postForObject(url+uri, hDto, UserHDto.class);
+//				hDto.getHobbyDto().setH_code_id(hic[i]);
+//				new_hDto.setUserId(dto.getUserId());
+				
+				hobbyDto.setH_code_id(hic[i]);
+				new_hDto.setHobbyDto(hobbyDto);
+				new_hDto.getHobbyDto().setH_code_id(hic[i]);
+				
+//				hDto.setH_code_id(hobbyDto.getH_code_id());
+//				new_hDto.setH_code_id(hDto.getH_code_id());
+				System.out.println("test @@@@@@@@@@@@@ : "+new_hDto);
+//				System.out.println("PT 서비스 hDto : "+hic[i]);
+				System.out.println("이게 뭐지? : "+restTemplate.postForObject(url+uri, new_hDto, UserHDto.class).getUserDto().getUserId());
+				System.out.println("이게 뭐지?2 : "+restTemplate.postForObject(url+uri, new_hDto, UserHDto.class).getHobbyDto().getH_code_id());
+				restTemplate.postForObject(url+uri, new_hDto, UserHDto.class);
 			}
 		} else {
-			hDto.setH_code_id(h_code_id);
-			System.out.println("PT 서비스 hDto : "+hDto);
-			restTemplate.postForObject(url+uri, hDto, UserHDto.class);
+//			new_hDto.setUserId(dto.getUserId());
+			hobbyDto.setH_code_id(h_code_id);
+			new_hDto.setHobbyDto(hobbyDto);
+//			hDto.setH_code_id(hobbyDto.getH_code_id());
+//			new_hDto.setH_code_id(hDto.getH_code_id());
+//			hDto.getHobbyDto().setH_code_id(h_code_id);
+			System.out.println("PT 서비스 hDto : "+new_hDto);
+			restTemplate.postForObject(url+uri, new_hDto, UserHDto.class);
 		}
 	}
 	
