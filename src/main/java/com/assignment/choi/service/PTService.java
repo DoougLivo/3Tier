@@ -75,7 +75,7 @@ public class PTService {
 	}
 	
 	public Map<?, ?> adminList(String searchKeyword, String userId) {
-		String uri = "/admin";
+		String uri = "/admin_PT";
 		ResponseEntity<Map> responseEntity = restTemplate.exchange(url+uri, HttpMethod.GET, null, new ParameterizedTypeReference<Map>() {});
 		System.out.println("status : " + responseEntity.getStatusCode());
 		System.out.println("body : " + responseEntity.getBody());
@@ -91,12 +91,12 @@ public class PTService {
 	}
 	
 	public void deleteUser(UserDto dto) {
-		String uri = "/admin/delete";
+		String uri = "/admin/delete_PT";
 		restTemplate.postForObject(url+uri, dto, UserDto.class);
 	}
 	
 	public void deleteUserHobby(UserHDtoPK pk) {
-		String uri = "/admin/deleteHobby";
+		String uri = "/admin/deleteHobby_PT";
 		restTemplate.postForObject(url+uri, pk, UserHDtoPK.class);
 	}
 }
