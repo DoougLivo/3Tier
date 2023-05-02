@@ -1,6 +1,7 @@
 package com.assignment.choi.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,21 +69,23 @@ public class UserController {
 	// 관리자 포털
 	@GetMapping("/admin")
 	String getList(Model model, String searchKeyword, String userId) {
-		Map<?, ?> resultMap = (Map<?, ?>) ptService.adminList(searchKeyword, userId);
+		System.out.println("1");
+		List<UserDto> resultMap = ptService.adminList(searchKeyword, userId);
+		System.out.println("2");
 		System.out.println("adminList : "+resultMap);
 		// 검색 안했을 때
 		if(searchKeyword == null) {
-			model.addAttribute("list", resultMap.get("list"));
-			model.addAttribute("depList", resultMap.get("depList"));
-			model.addAttribute("getHobbyList", resultMap.get("getHobbyList"));
-			model.addAttribute("hci", resultMap.get("hci"));
+			model.addAttribute("list", resultMap);
+//			model.addAttribute("depList", resultMap.get("depList"));
+//			model.addAttribute("getHobbyList", resultMap.get("getHobbyList"));
+//			model.addAttribute("hci", resultMap.get("hci"));
 		} else {  //검색 했을 때
-			model.addAttribute("searchKeyword", resultMap.get("searchKeyword"));
+//			model.addAttribute("searchKeyword", resultMap.get("searchKeyword"));
 			if(userId != "") {  //상세정보 눌렀을 때
-				model.addAttribute("view", resultMap.get("view"));
-				model.addAttribute("depList", resultMap.get("depList"));
-				model.addAttribute("getHobbyList", resultMap.get("getHobbyList"));
-				model.addAttribute("hci", resultMap.get("hci"));
+//				model.addAttribute("view", resultMap.get("view"));
+//				model.addAttribute("depList", resultMap.get("depList"));
+//				model.addAttribute("getHobbyList", resultMap.get("getHobbyList"));
+//				model.addAttribute("hci", resultMap.get("hci"));
 			}
 		}
 		return "admin/admin";

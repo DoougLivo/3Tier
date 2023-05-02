@@ -122,6 +122,7 @@ $(()=>{
 		let userId = $("#userId").val().trim();
 		let userNm = $("#userNm").val().trim();
 		let user_email = $("#user_email").val().trim();
+		let user_phone = $("#user_phone").val().trim();
 		let idcheck_yn = $("#idcheck_yn").val();
 		let frm = $("#userform").serialize();
 		
@@ -145,6 +146,11 @@ $(()=>{
 		if(user_email=="") {
 			alert("이메일을 입력하세요");
 			$("#user_email").focus();
+			return;
+		}
+		if(user_phone=="") {
+			alert("전화번호를 입력하세요");
+			$("#user_phone").focus();
 			return;
 		}
 		if(idcheck_yn=="N") {

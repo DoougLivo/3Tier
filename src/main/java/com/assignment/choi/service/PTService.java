@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.assignment.choi.domain.DepDto;
 import com.assignment.choi.domain.HobbyDto;
 import com.assignment.choi.domain.UserDto;
 import com.assignment.choi.domain.UserHDto;
@@ -60,10 +59,12 @@ public class PTService {
 //		new_hDto.setUserId(dto.getUserId());
 //		new_userDto.setUserId(dto.getUserId());
 //		new_hDto.setUserDto(new_userDto);
-		System.out.println("이거 테스트 : "+dto.getUserId());
-		new_userDto.setUserId(dto.getUserId());
-		new_hDto.setUserDto(new_userDto);
-		System.out.println("이거 테스트 2 : "+new_hDto.getUserDto().getUserId());
+//		System.out.println("이거 테스트 : "+dto.getUserId());
+//		new_userDto.setUserId(dto.getUserId());
+//		new_hDto.setUserDto(dto);
+		hDto.setUserDto(dto);
+//		System.out.println("이거 테스트 2 : "+new_hDto.getUserDto().getUserId());
+		System.out.println("이거 테스트 2 : "+hDto.getUserDto().getUserId());
 		
 //		hobbyDto.setH_code_id(h_code_id);
 //		new_hDto.setH_code_id(hobbyDto.getH_code_id());
@@ -77,26 +78,25 @@ public class PTService {
 //				new_hDto.setUserId(dto.getUserId());
 				
 				hobbyDto.setH_code_id(hic[i]);
-				new_hDto.setHobbyDto(hobbyDto);
-				new_hDto.getHobbyDto().setH_code_id(hic[i]);
+//				new_hDto.setHobbyDto(hobbyDto);
+				hDto.setHobbyDto(hobbyDto);
+//				new_hDto.getHobbyDto().setH_code_id(hic[i]);
 				
 //				hDto.setH_code_id(hobbyDto.getH_code_id());
 //				new_hDto.setH_code_id(hDto.getH_code_id());
 				System.out.println("test @@@@@@@@@@@@@ : "+new_hDto);
 //				System.out.println("PT 서비스 hDto : "+hic[i]);
-				System.out.println("이게 뭐지? : "+restTemplate.postForObject(url+uri, new_hDto, UserHDto.class).getUserDto().getUserId());
-				System.out.println("이게 뭐지?2 : "+restTemplate.postForObject(url+uri, new_hDto, UserHDto.class).getHobbyDto().getH_code_id());
-				restTemplate.postForObject(url+uri, new_hDto, UserHDto.class);
+				restTemplate.postForObject(url+uri, hDto, UserHDto.class);
 			}
 		} else {
 //			new_hDto.setUserId(dto.getUserId());
 			hobbyDto.setH_code_id(h_code_id);
-			new_hDto.setHobbyDto(hobbyDto);
+			hDto.setHobbyDto(hobbyDto);
 //			hDto.setH_code_id(hobbyDto.getH_code_id());
 //			new_hDto.setH_code_id(hDto.getH_code_id());
 //			hDto.getHobbyDto().setH_code_id(h_code_id);
 			System.out.println("PT 서비스 hDto : "+new_hDto);
-			restTemplate.postForObject(url+uri, new_hDto, UserHDto.class);
+			restTemplate.postForObject(url+uri, hDto, UserHDto.class);
 		}
 	}
 	
@@ -106,11 +106,21 @@ public class PTService {
 		return result;
 	}
 	
-	public Map<?, ?> adminList(String searchKeyword, String userId) {
-		String uri = "/admin_PT";
-		ResponseEntity<Map> responseEntity = restTemplate.exchange(url+uri, HttpMethod.GET, null, new ParameterizedTypeReference<Map>() {});
-		System.out.println("status : " + responseEntity.getStatusCode());
-		System.out.println("body : " + responseEntity.getBody());
+	public List<UserDto> adminList(String searchKeyword, String userId) {
+		System.out.println("3");
+		String uri="";
+		if(searchKeyword != null) {
+			uri = url + "/admin_PT?searchKeyword="+searchKeyword;
+		} else {
+			uri = url + "/admin_PT";
+		}
+//		ResponseEntity<Map> responseEntity = restTemplate.exchange(url+uri, HttpMethod.GET, null, new ParameterizedTypeReference<Map>() {});
+//		System.out.println("status : " + responseEntity.getStatusCode());
+//		System.out.println("@@@@@ body : " + responseEntity.getBody());
+		
+		ResponseEntity<List<UserDto>> responseEntity= restTemplate.exchange(uri, HttpMethod.GET, null, 
+				new ParameterizedTypeReference<List<UserDto>>() {});
+		
 		return responseEntity.getBody();
 	}
 	
